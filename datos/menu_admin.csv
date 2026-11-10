@@ -1,0 +1,13 @@
+id_plato,nombre_plato,categoria,precio_actual,estado
+1,Almuerzo ejecutivo,Almuerzo,3.75,DISPONIBLE
+2,Seco de pollo,Almuerzo,3.75,DISPONIBLE
+3,Encebollado,Almuerzo,3.25,DISPONIBLE
+4,Bolón de verde,Desayuno,2.25,DISPONIBLE
+5,Tigrillo,Desayuno,2.75,AGOTADO
+6,Humita,Snack,1.25,DISPONIBLE
+7,Empanada de viento,Snack,1.00,DISPONIBLE
+8,Ensalada de frutas,Snack,2.00,DISPONIBLE
+9,Café pasado,Bebida,0.75,DISPONIBLE
+10,Jugo natural,Bebida,1.25,DISPONIBLE
+11,Batido de mora,Bebida,1.75,DISPONIBLE
+12,Sánduche de pernil,Snack,2.50,RETIRADO

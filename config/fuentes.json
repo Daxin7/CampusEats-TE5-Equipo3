@@ -1,0 +1,7 @@
+{
+  "fuentes": [
+    {"tipo": "app_json", "ruta": "datos/pedidos_app.json"},
+    {"tipo": "pasarela_csv", "ruta": "datos/pagos_pasarela.csv"},
+    {"tipo": "menu_csv", "ruta": "datos/menu_admin.csv"}
+  ]
+}
