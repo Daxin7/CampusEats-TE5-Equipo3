@@ -2,16 +2,24 @@ package campuseats;
 
 import campuseats.fabrica.FabricaFuentes;
 import campuseats.fuentes.FuenteDatos;
+import campuseats.limpieza.*;
+import campuseats.modelo.LineaAnalitica;
+import campuseats.modelo.Pago;
+import campuseats.modelo.Pedido;
+import campuseats.modelo.Plato;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Prueba de integración de los patrones
- * Adapter y Factory.
+ * Adapter, Factory y Pipeline.
  */
 public class Main {
 
@@ -48,6 +56,10 @@ public class Main {
 
             System.out.println("\nLeyendo fuentes configuradas...\n");
 
+            List<Pedido> pedidos = new ArrayList<>();
+            List<Pago> pagos = new ArrayList<>();
+            List<Plato> platos = new ArrayList<>();
+
             for (JsonNode fuente : fuentes) {
 
                 String tipo = fuente.path("tipo").asText();
@@ -69,6 +81,16 @@ public class Main {
                 // Adapter convierte los datos
                 List<?> registros = adaptador.leer();
 
+                for (Object registro : registros) {
+                    if (registro instanceof Pedido pedido) {
+                        pedidos.add(pedido);
+                    } else if (registro instanceof Pago pago) {
+                        pagos.add(pago);
+                    } else if (registro instanceof Plato plato) {
+                        platos.add(plato);
+                    }
+                }
+
                 System.out.println("------------------------------------");
                 System.out.println("Tipo: " + tipo);
                 System.out.println("Archivo: " + ruta);
@@ -81,13 +103,34 @@ public class Main {
                 );
             }
 
+            List<LineaAnalitica> lineas = LineaAnalitica.desdePedidos(pedidos);
+            Pipeline pipeline = new Pipeline(List.of(
+                    new SinDuplicados(),
+                    new CantidadesValidas(),
+                    new SoloPagados(),
+                    new PagoVerificado(pagos),
+                    new CompletarNombrePlato(platos)
+            ));
+            System.out.println("\nLIMPIEZA DE DATOS");
+            System.out.println("Líneas iniciales: " + lineas.size());
+
+            List<LineaAnalitica> limpias = pipeline.ejecutar(lineas);
+
+            // Un pedido puede tener varias líneas: contamos números distintos.
+            Set<String> numerosPedido = new HashSet<>();
+            for (LineaAnalitica registro : limpias) {
+                numerosPedido.add(registro.pedido().numeroPedido());
+            }
+            System.out.printf("Quedan al final: %d líneas de %d pedidos%n",
+                    limpias.size(), numerosPedido.size());
+
             System.out.println("\n====================================");
-            System.out.println("LECTURA FINALIZADA CORRECTAMENTE");
+            System.out.println("LECTURA Y LIMPIEZA FINALIZADAS");
             System.out.println("====================================");
 
         } catch (Exception e) {
 
-            System.err.println("\nERROR AL LEER LOS DATOS:");
+            System.err.println("\nERROR AL PROCESAR LOS DATOS:");
             System.err.println(e.getMessage());
 
             e.printStackTrace();
