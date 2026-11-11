@@ -17,10 +17,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Prueba de integración de los patrones
- * Adapter, Factory y Pipeline.
- */
 public class Main {
 
     public static void main(String[] args) {
@@ -53,8 +49,6 @@ public class Main {
                         "La configuración debe contener un arreglo 'fuentes'"
                 );
             }
-
-            System.out.println("\nLeyendo fuentes configuradas...\n");
 
             List<Pedido> pedidos = new ArrayList<>();
             List<Pago> pagos = new ArrayList<>();
@@ -124,9 +118,8 @@ public class Main {
             System.out.printf("Quedan al final: %d líneas de %d pedidos%n",
                     limpias.size(), numerosPedido.size());
 
-            System.out.println("\n====================================");
-            System.out.println("LECTURA Y LIMPIEZA FINALIZADAS");
-            System.out.println("====================================");
+            System.out.println("\nLECTURA Y LIMPIEZA FINALIZADAS");
+
 
         } catch (Exception e) {
 
