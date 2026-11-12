@@ -1,6 +1,8 @@
 package campuseats.metricas;
 
+import campuseats.modelo.LineaAnalitica;
 import campuseats.modelo.LineaPedido;
+import campuseats.modelo.Pedido;
 import java.util.*;
 
 public class PedidosPorHora implements Metrica {
@@ -11,13 +13,25 @@ public class PedidosPorHora implements Metrica {
     }
 
     @Override
-    public Object calcular(List datos) {
+    public Object calcular(List<?> datos) {
         Map<String, Set<Object>> pedidosPorHora = new HashMap<>();
 
         for (Object obj : datos) {
-            LineaPedido linea = (LineaPedido) obj;
-            String hora = linea.hora(); // Ej: "13:00"
-            Object idPedido = linea.idPedido();
+            String hora = null;
+            Object idPedido = null;
+
+            if (obj instanceof LineaAnalitica analitica) {
+                Pedido pedido = analitica.pedido();
+                if (pedido != null && pedido.registradoEn() != null) {
+                    // Extraemos la hora en formato "HH:00" o la hora exacta de registradoEn
+                    int horaInt = pedido.registradoEn().getHour();
+                    hora = String.format("%02d:00", horaInt);
+                    idPedido = pedido.numeroPedido();
+                }
+            } else if (obj instanceof LineaPedido linea) {
+                hora = linea.hora();
+                idPedido = linea.idPedido();
+            }
 
             if (hora != null && idPedido != null) {
                 pedidosByHoraPut(pedidosPorHora, hora, idPedido);
@@ -28,6 +42,9 @@ public class PedidosPorHora implements Metrica {
         for (Map.Entry<String, Set<Object>> entry : pedidosPorHora.entrySet()) {
             resultado.put(entry.getKey(), entry.getValue().size());
         }
+
+        // Imprimir resultados en consola para validar con el taller
+        System.out.println("Resultados (Pedidos por hora): " + resultado);
 
         return resultado;
     }
