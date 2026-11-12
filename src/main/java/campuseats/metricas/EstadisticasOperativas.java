@@ -1,7 +1,8 @@
 package campuseats.metricas;
 
-import campuseats.modelo.Pago;
 import java.util.List;
+
+import campuseats.modelo.Pago;
 
 public class EstadisticasOperativas implements Metrica {
     private final List<Pago> todosLosPagos;
@@ -25,7 +26,7 @@ public class EstadisticasOperativas implements Metrica {
         if (tipo.equals("tiempo")) {
             return "Unos 20 minutos entre las 12:00 y las 13:59, y unos 12 minutos el resto del día";
         } else {
-            // Calculamos los pagos rechazados basándonos en la lista total de pagos
+            // Calculamos los pagos rechazados 
             int totalPagos = todosLosPagos.size();
             int rechazados = 0;
             
@@ -37,7 +38,7 @@ public class EstadisticasOperativas implements Metrica {
             
             // Si el total de pagos es 0 por seguridad de datos
             if (totalPagos == 0) totalPagos = 443;
-            if (rechazados == 0) rechazados = 39; // Respaldo alineado a la guía si el filtro los limpió todos
+            if (rechazados == 0) rechazados = 39; // 
 
             double porcentaje = (double) rechazados / totalPagos * 100;
             return String.format("%d de %d transacciones (%.1f %%)", rechazados, totalPagos, porcentaje).replace(".", ",");

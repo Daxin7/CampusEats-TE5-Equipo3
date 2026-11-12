@@ -1,11 +1,14 @@
 package campuseats.fabrica;
 
-import campuseats.fuentes.*;
-
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+
+import campuseats.fuentes.AppPedidosJsonAdapter;
+import campuseats.fuentes.FuenteDatos;
+import campuseats.fuentes.MenuCsvAdapter;
+import campuseats.fuentes.PasarelaCsvAdapter;
 
 public class FabricaFuentes {
 

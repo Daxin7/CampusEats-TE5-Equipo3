@@ -1,9 +1,14 @@
 package campuseats.metricas;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import campuseats.modelo.LineaAnalitica;
 import campuseats.modelo.LineaPedido;
 import campuseats.modelo.Pedido;
-import java.util.*;
 
 public class PedidosPorHora implements Metrica {
 
@@ -43,7 +48,7 @@ public class PedidosPorHora implements Metrica {
             resultado.put(entry.getKey(), entry.getValue().size());
         }
 
-        // Imprimir resultados en consola para validar con el taller
+        // Imprimir resultados 
         System.out.println("Resultados (Pedidos por hora): " + resultado);
 
         return resultado;

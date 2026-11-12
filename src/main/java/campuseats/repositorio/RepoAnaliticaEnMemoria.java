@@ -1,11 +1,11 @@
 package campuseats.repositorio;
 
-import campuseats.modelo.LineaAnalitica;
-import campuseats.modelo.Pago;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import campuseats.modelo.LineaAnalitica;
+import campuseats.modelo.Pago;
 
 public class RepoAnaliticaEnMemoria implements RepoAnalitica{
     private List<LineaAnalitica> lineas = new ArrayList<>();
@@ -41,7 +41,6 @@ public class RepoAnaliticaEnMemoria implements RepoAnalitica{
                     filtradas.add(linea);
                 }
             } else {
-                // Si por alguna razón la línea no tiene fecha asociada, la incluimos por seguridad
                 filtradas.add(linea);
             }
         }
